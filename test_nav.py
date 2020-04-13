@@ -76,8 +76,8 @@ class NavigationTest(BaseCase):
     def test_05_change_region(self):
         # 
         self.get(self.base_url+'/dolce-gabbana/s/1495')
-        # получаем английский текст
-        eng_text = self.get_text('//article[1]/a/div[2]/p[2]')
+        # получаем цену товара
+        price1 = self.get_text('//article[1]/a/div[2]/p[3]')
         # переход в раздел языковых параметров и их смена
         self.click('//*[@id="top-navigation-links"]/ul/li[1]/a')
         self.click('//a[@title="Russian"]')
@@ -85,9 +85,10 @@ class NavigationTest(BaseCase):
         self.click('//a[@title="USA"]')
         # переход в раздел товаров на русском
         self.get('https://ru.babyshop.com/dolce-gabbana/s/1495')
-        # получаем русский текст
-        ru_text = self.get_text('//article[1]/a/div[2]/p[2]')
-        # английский текст не должен совпадать с русским
-        self.assert_not_equal(eng_text, ru_text)
+        # получаем цену товара
+        price2 = self.get_text('//article[1]/a/div[2]/p[3]')
+        # цена до смены языка и региона не должна
+        # совпадать с ценой после смены
+        self.assert_not_equal(price1, price2)
 
 
